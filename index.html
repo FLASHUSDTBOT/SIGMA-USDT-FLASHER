@@ -5,28 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FLASH USDT SIGMA 3.60</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      height: 100%;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
       font-family: sans-serif;
       color: white;
+      height: 100vh;
       overflow: hidden;
       position: relative;
-    }
-
-    video#bgVideo {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      z-index: -1;
     }
 
     .container {
@@ -62,7 +50,7 @@
       margin-bottom: 20px;
     }
 
-    input, select {
+    select, input {
       width: 100%;
       padding: 10px;
       margin: 10px 0;
@@ -92,104 +80,17 @@
       margin-top: 10px;
       display: none;
     }
-
-    .support-btn, .discord-btn {
-      position: fixed;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 10px #00aaff;
-      z-index: 1000;
-    }
-
-    .support-btn {
-      bottom: 20px;
-      right: 20px;
-      background-color: #0088cc;
-    }
-
-    .discord-btn {
-      bottom: 20px;
-      right: 80px; /* 60px left from telegram */
-      background-color: #5865F2;
-    }
-
-    .support-btn svg, .discord-btn svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    .lang-dropdown {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 999;
-    }
-
-    .lang-btn {
-      background-color: #222;
-      color: #00aaff;
-      border: none;
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .lang-options {
-      display: none;
-      position: absolute;
-      top: 55px;
-      right: 0;
-      background-color: #111;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .lang-options select {
-      width: 100%;
-      padding: 8px;
-      border: none;
-      background: transparent;
-      color: white;
-    }
-
-    .lang-dropdown:hover .lang-options {
-      display: block;
-    }
   </style>
 </head>
 <body>
-
-  <!-- خلفية فيديو -->
-  <video autoplay muted loop id="bgVideo">
-    <source src="background.mp4" type="video/mp4" />
-    Your browser does not support HTML5 video.
-  </video>
-
-  <!-- قائمة اللغات -->
-  <div class="lang-dropdown">
-    <button class="lang-btn">🌐</button>
-    <div class="lang-options">
-      <select id="langSelect">
-        <option value="en">English</option>
-        <option value="fr">Français</option>
-        <option value="ru">Русский</option>
-        <option value="zh">中文</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- النموذج -->
   <div class="container">
     <h1 id="title">FLASH USDT SIGMA 3.60</h1>
-    <input type="number" id="amount" placeholder="Amount (> 5000)" />
+    <select id="amount">
+      <option value="">-- Select Amount --</option>
+      <option value="5000">5000</option>
+      <option value="20000">20000</option>
+      <option value="100000">100000</option>
+    </select>
     <select id="network">
       <option value="TRC20">TRC20</option>
       <option value="ERC20">ERC20</option>
@@ -198,86 +99,23 @@
     <input type="text" id="wallet" placeholder="Wallet Address" />
     <button id="verifyBtn">Verify</button>
     <div id="loadingBar"></div>
-    <button id="sendBtn" style="display:none;">Pay</button>
+    <button id="sendBtn" style="display:none;">Pay Now</button>
   </div>
 
-  <!-- زر دعم تلغرام -->
-  <a href="https://t.me/Sigmasupport360bot" target="_blank" rel="noopener noreferrer">
-    <button class="support-btn" title="Telegram Support">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M9.447 15.106 8.88 19.08c.626 0 .9-.27 1.24-.594l2.98-2.81 4.17 3.05c.763.42 1.31.2 1.5-.705L22.93 5.41c.24-.98-.372-1.367-1.088-1.094L2.49 10.49c-.96.38-.945.92-.163 1.17l4.93 1.54L18.63 7.4c.44-.3.84-.14.51.16"/></svg>
-    </button>
-  </a>
-
-  <!-- زر دعم ديسكورد -->
-  <a href="https://discord.gg/8cSDJZjE" target="_blank" rel="noopener noreferrer">
-    <button class="discord-btn" title="Discord Support">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
-        <path d="M20.317 4.3698A19.7913 19.7913 0 0016.016 3c-.211 0-.423.004-.632.01a14.9931 14.9931 0 00-2.857.472 15.0662 15.0662 0 00-7.031 3.588A19.7793 19.7793 0 002.694 12.17a19.84 19.84 0 00.003 6.656 15.05 15.05 0 005.972 4.211c.442.167.91.303 1.395.397a19.7582 19.7582 0 005.263.617 19.6817 19.6817 0 004.583-.588 15.09 15.09 0 006.522-4.234 19.84 19.84 0 00-3.557-11.06 15.036 15.036 0 00-4.074-3.054zm-11.65 10.684c-1.18 0-2.148-1.08-2.148-2.412 0-1.332.955-2.412 2.148-2.412 1.208 0 2.178 1.08 2.148 2.412 0 1.332-.94 2.412-2.148 2.412zm7.335 0c-1.18 0-2.148-1.08-2.148-2.412 0-1.332.955-2.412 2.148-2.412 1.208 0 2.178 1.08 2.148 2.412 0 1.332-.94 2.412-2.148 2.412z"/>
-      </svg>
-    </button>
-  </a>
-
-  <!-- سكربت متعدد اللغات والتحقق -->
   <script>
-    const translations = {
-      en: {
-        title: "FLASH USDT SIGMA 3.60",
-        amount: "Amount (> 5000)",
-        wallet: "Wallet Address",
-        verify: "Verify",
-        send: "Pay"
-      },
-      fr: {
-        title: "FLASH USDT SIGMA 3.60",
-        amount: "Montant (> 5000)",
-        wallet: "Adresse de portefeuille",
-        verify: "Vérifier",
-        send: "Payer"
-      },
-      ru: {
-        title: "FLASH USDT SIGMA 3.60",
-        amount: "Сумма (> 5000)",
-        wallet: "Адрес кошелька",
-        verify: "Проверить",
-        send: "Оплатить"
-      },
-      zh: {
-        title: "FLASH USDT SIGMA 3.60",
-        amount: "金额 (> 5000)",
-        wallet: "钱包地址",
-        verify: "验证",
-        send: "支付"
-      }
+    const amountLinks = {
+      5000: "https://s.binance.com/AZ7BA2XV",
+      20000: "https://s.binance.com/J7YeXvTf",
+      100000: "https://s.binance.com/nqMO5AgM"
     };
-
-    const langSelect = document.getElementById("langSelect");
-    const defaultLang = localStorage.getItem("language") || navigator.language.slice(0, 2);
-    const lang = translations[defaultLang] ? defaultLang : "en";
-    langSelect.value = lang;
-    setLanguage(lang);
-
-    langSelect.addEventListener("change", () => {
-      localStorage.setItem("language", langSelect.value);
-      setLanguage(langSelect.value);
-    });
-
-    function setLanguage(lang) {
-      document.getElementById("title").textContent = translations[lang].title;
-      document.getElementById("amount").placeholder = translations[lang].amount;
-      document.getElementById("wallet").placeholder = translations[lang].wallet;
-      document.getElementById("verifyBtn").textContent = translations[lang].verify;
-      const amount = document.getElementById("amount").value;
-      const payText = amount ? `Pay (${(amount * 10 / 5000).toFixed(2)})` : translations[lang].send;
-      document.getElementById("sendBtn").textContent = payText;
-    }
 
     document.getElementById("verifyBtn").addEventListener("click", async () => {
       const amount = document.getElementById("amount").value;
       const network = document.getElementById("network").value;
       const wallet = document.getElementById("wallet").value;
 
-      if (amount <= 4999 || !wallet) {
-        alert("Enter valid amount and wallet address");
+      if (!amount || !wallet) {
+        alert("Please select an amount and enter wallet address.");
         return;
       }
 
@@ -295,24 +133,20 @@
         loadingBar.style.width = progress + "%";
         if (progress >= 100) {
           clearInterval(interval);
-          const payAmount = (amount * 10 / 5000).toFixed(2);
-          document.getElementById("sendBtn").textContent = `Pay in usdt (${payAmount})`;
           document.getElementById("sendBtn").style.display = "block";
           document.getElementById("verifyBtn").style.display = "none";
         }
-      }, 1000);
+      }, 300);
     });
 
     document.getElementById("sendBtn").addEventListener("click", () => {
-      window.location.href = "page2.html";
-    });
-
-    document.getElementById("amount").addEventListener("input", () => {
       const amount = document.getElementById("amount").value;
-      const lang = langSelect.value;
-      const payText = amount > 0 ? `Pay in usdt (${(amount * 10 / 5000).toFixed(2)})` : translations[lang].send;
-      document.getElementById("sendBtn").textContent = payText;
+      if (amountLinks[amount]) {
+        window.location.href = amountLinks[amount];
+      } else {
+        alert("Invalid amount selected.");
+      }
     });
   </script>
 </body>
-</htmوعنوانح
+</html>
