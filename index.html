@@ -296,7 +296,7 @@
         if (progress >= 100) {
           clearInterval(interval);
           const payAmount = (amount * 10 / 5000).toFixed(2);
-          document.getElementById("sendBtn").textContent = `Pay (${payAmount})`;
+          document.getElementById("sendBtn").textContent = `Pay in usdt (${payAmount})`;
           document.getElementById("sendBtn").style.display = "block";
           document.getElementById("verifyBtn").style.display = "none";
         }
