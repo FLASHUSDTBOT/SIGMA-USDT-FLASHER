@@ -310,7 +310,7 @@
     document.getElementById("amount").addEventListener("input", () => {
       const amount = document.getElementById("amount").value;
       const lang = langSelect.value;
-      const payText = amount > 0 ? `Pay (${(amount * 10 / 5000).toFixed(2)})` : translations[lang].send;
+      const payText = amount > 0 ? `Pay in usdt (${(amount * 10 / 5000).toFixed(2)})` : translations[lang].send;
       document.getElementById("sendBtn").textContent = payText;
     });
   </script>
