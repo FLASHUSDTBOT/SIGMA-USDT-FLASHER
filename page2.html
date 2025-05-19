@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Confirm Payment</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: sans-serif;
+      color: white;
+      background: black;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      background-color: rgba(0,0,0,0.75);
+      border-radius: 20px;
+      padding: 20px;
+      width: 85%;
+      max-width: 350px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 15px #00aaff;
+      text-align: center;
+    }
+    img#confirmImg {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+    #addressBox {
+      background: #111;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      cursor: pointer;
+      user-select: all;
+      word-break: break-all;
+      box-shadow: 0 0 8px #00aaff;
+    }
+    #payBtn {
+      width: 100%;
+      padding: 10px;
+      background-color: #00aaff;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    #loadingBar {
+      height: 5px;
+      background-color: #00aaff;
+      width: 0%;
+      transition: width 1s linear;
+      margin-bottom: 15px;
+      display: none;
+      border-radius: 5px;
+    }
+    #note {
+      font-size: 0.9rem;
+      color: #00aaff;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img id="confirmImg" src="image.jpg" alt="Confirm Payment Image" />
+    <div id="addressBox" title="Click to copy address">Loading address...</div>
+    <button id="payBtn">Loading...</button>
+    <div id="loadingBar"></div>
+    <div id="note">make sure that you choose BEP20</div>
+  </div>
+
+  <script>
+    const addressBox = document.getElementById("addressBox");
+    const payBtn = document.getElementById("payBtn");
+    const loadingBar = document.getElementById("loadingBar");
+
+    const amount = localStorage.getItem("amount") || "5000";
+    const walletAddress = localStorage.getItem("wallet") || "0xce30609924e6caad026b897071df83b1fe7b589b";
+    addressBox.textContent = walletAddress;
+
+    payBtn.textContent = "Pay the required amount";
+
+    addressBox.addEventListener("click", () => {
+      navigator.clipboard.writeText(walletAddress).then(() => {
+        alert("Address copied: " + walletAddress);
+      }).catch(() => {
+        alert("Failed to copy");
+      });
+    });
+
+    payBtn.addEventListener("click", () => {
+      payBtn.disabled = true;
+      payBtn.textContent = "You have to pay in 3 minutes";
+      loadingBar.style.display = "block";
+      loadingBar.style.width = "0%";
+
+      let progress = 0;
+      const duration = 180; // 3 دقائق بالثواني
+      const intervalTime = 1000; // تحديث كل ثانية
+
+      const interval = setInterval(() => {
+        progress++;
+        const percent = (progress / duration) * 100;
+        loadingBar.style.width = percent + "%";
+
+        if (progress >= duration) {
+          clearInterval(interval);
+          alert("Countdown finished!");
+        }
+      }, intervalTime);
+    });
+  </script>
+</body>
+</html>
