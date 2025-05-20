@@ -1,199 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FLASH USDT SIGMA 3.60</title>
+  <title>الصيانة</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: url('background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: sans-serif;
-      color: white;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #000000);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .container {
-      background-color: rgba(0, 0, 0, 0.75);
-      border-radius: 20px;
-      padding: 20px;
-      width: 85%;
-      max-width: 350px;
-      position: absolute;
-      top: 55%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 15px #00aaff;
-      animation: fadeInUp 1s ease forwards;
-      opacity: 0;
-    }
-
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, 10%);
-      }
-      100% {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    h1 {
       text-align: center;
-      color: #00aaff;
-      font-size: 1.5rem;
-      margin-bottom: 20px;
     }
-
-    select, input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
-      background-color: #111;
-      color: white;
+    .box {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
     }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #00aaff;
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 10px;
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
     }
-
-    #loadingBar {
-      height: 5px;
-      background-color: #00aaff;
-      width: 0%;
-      transition: width 1s linear;
-      margin-top: 10px;
-      display: none;
-    }
-
-    .contact-btn {
-      position: fixed;
-      bottom: 20px;
-      padding: 10px 15px;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      z-index: 1000;
-    }
-
-    .contact-btn.telegram {
-      left: 20px;
-      background-color: #00aaff;
-      box-shadow: 0 0 10px #00aaff;
-    }
-
-    .contact-btn.discord {
-      right: 20px;
-      background-color: #5865F2;
-      box-shadow: 0 0 10px #5865F2;
+    p {
+      font-size: 18px;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="title">FLASH USDT SIGMA 3.60</h1>
-    <select id="amount">
-      <option value="">-- Select Amount --</option>
-      <option value="5000">5000</option>
-      <option value="20000">20000</option>
-      <option value="100000">100000</option>
-    </select>
-    <select id="network">
-      <option value="TRC20">TRC20</option>
-      <option value="ERC20">ERC20</option>
-      <option value="BEP20">BEP20</option>
-    </select>
-    <input type="text" id="wallet" placeholder="Wallet Address" />
-    <button id="verifyBtn">Verify</button>
-    <div id="loadingBar"></div>
-    <button id="sendBtn" style="display:none;">Pay Now</button>
+  <div class="box">
+    <h1>البرنامج تحت الصيانة</h1>
+    <p>سيعود للعمل بعد قليل</p>
   </div>
-
-  <!-- Telegram and Discord Buttons -->
-  <a href="https://t.me/Sigmasupport360bot" target="_blank" id="telegramBtn" class="contact-btn telegram">Telegram</a>
-  <a href="https://discord.gg/8cSDJZjE" target="_blank" id="discordBtn" class="contact-btn discord">Discord</a>
-
-  <script>
-    const amountLinks = {
-      5000: "https://s.binance.com/AZ7BA2XV",
-      20000: "https://s.binance.com/J7YeXvTf",
-      100000: "https://s.binance.com/nqMO5AgM"
-    };
-
-    document.getElementById("verifyBtn").addEventListener("click", async () => {
-      const amount = document.getElementById("amount").value;
-      const network = document.getElementById("network").value;
-      const wallet = document.getElementById("wallet").value;
-
-      if (!amount || !wallet) {
-        alert("Please select an amount and enter wallet address.");
-        return;
-      }
-
-      const message = `New Verification:\nAmount: ${amount}\nNetwork: ${network}\nWallet: ${wallet}`;
-      const telegramUrl = `https://api.telegram.org/bot8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw/sendMessage?chat_id=7739393558&text=${encodeURIComponent(message)}`;
-
-      try {
-        await fetch(telegramUrl);
-      } catch (error) {
-        alert("Verification failed. Please try again.");
-        return;
-      }
-
-      const loadingBar = document.getElementById("loadingBar");
-      loadingBar.style.display = "block";
-      loadingBar.style.width = "0%";
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        loadingBar.style.width = progress + "%";
-        if (progress >= 100) {
-          clearInterval(interval);
-          document.getElementById("sendBtn").style.display = "block";
-          document.getElementById("verifyBtn").style.display = "none";
-        }
-      }, 300);
-    });
-
-    document.getElementById("sendBtn").addEventListener("click", () => {
-      const amount = document.getElementById("amount").value;
-      if (amountLinks[amount]) {
-        window.location.href = amountLinks[amount];
-      } else {
-        alert("Invalid amount selected.");
-      }
-    });
-
-    // Multi-language button text
-    const translations = {
-      en: { telegram: "Telegram", discord: "Discord" },
-      fr: { telegram: "Télégram", discord: "Discorde" },
-      ru: { telegram: "Телеграм", discord: "Дискорд" },
-      zh: { telegram: "电报", discord: "迪斯科德" }
-    };
-
-    const currentLang = localStorage.getItem("language") || "en";
-    const t = translations[currentLang] || translations.en;
-
-    document.getElementById("telegramBtn").textContent = t.telegram;
-    document.getElementById("discordBtn").textContent = t.discord;
-  </script>
 </body>
 </html>
