@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>الصيانة</title>
+  <title>Maintenance</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Cairo', sans-serif;
+      font-family: 'Arial', sans-serif;
       background: linear-gradient(135deg, #1a1a1a, #000000);
       color: #ffffff;
       display: flex;
@@ -32,12 +32,46 @@
       font-size: 18px;
       color: #ccc;
     }
+    #countdown {
+      font-size: 24px;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #00ffcc;
+    }
   </style>
 </head>
 <body>
   <div class="box">
-    <h1>البرنامج تحت الصيانة</h1>
-    <p>سيعود للعمل بعد قليل</p>
+    <h1>Software Under Maintenance</h1>
+    <p>We’ll be back shortly. Thank you for your patience!</p>
+    <div id="countdown">Loading...</div>
   </div>
+
+  <script>
+    // Set countdown for 3 hours and 55 minutes from now
+    const now = new Date().getTime();
+    const countdownTime = now + (3 * 60 * 60 * 1000) + (55 * 60 * 1000);
+
+    const countdownEl = document.getElementById("countdown");
+
+    const interval = setInterval(() => {
+      const currentTime = new Date().getTime();
+      const distance = countdownTime - currentTime;
+
+      if (distance <= 0) {
+        clearInterval(interval);
+        countdownEl.innerHTML = "Maintenance complete.";
+        return;
+      }
+
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }, 1000);
+  </script>
 </body>
 </html>
