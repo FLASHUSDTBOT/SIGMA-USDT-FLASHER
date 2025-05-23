@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload Screenshot with Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5vw;
+      min-height: 100vh;
+      text-align: center;
+    }
+    h2 {
+      font-size: 6vw;
+      margin-bottom: 5vw;
+    }
+    .warning {
+      background-color: #330000;
+      color: #ff6666;
+      padding: 4vw;
+      border-radius: 2vw;
+      margin-bottom: 5vw;
+      font-size: 4vw;
+    }
+    input[type="file"] {
+      margin-bottom: 5vw;
+      font-size: 4vw;
+    }
+    button {
+      padding: 4vw 6vw;
+      font-size: 5vw;
+      border: none;
+      border-radius: 2vw;
+      background-color: #00bcd4;
+      color: white;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #555;
+    }
+    img.preview {
+      margin-top: 4vw;
+      max-width: 80%;
+      border-radius: 2vw;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload screenshot payment</h2>
+
+  <div class="warning">
+    Warning: Sending 5 fake screenshots will permanently block this tool on your device.
+  </div>
+
+  <input type="file" id="screenshotInput" accept="image/*" />
+  <img id="previewImage" class="preview" alt="Preview" />
+
+  <button id="sendButton" onclick="sendScreenshot()" disabled>DONE</button>
+
+  <script>
+    const botToken = "8187809372:AAG4a4uXNzKP57b3d2rSuvw_ZIxfKVfK7zw";
+    const chatId = "7739393558";
+
+    const fileInput = document.getElementById('screenshotInput');
+    const preview = document.getElementById('previewImage');
+    const sendButton = document.getElementById('sendButton');
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+          sendButton.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    async function sendScreenshot() {
+      const file = fileInput.files[0];
+      if (!file) return alert("Please select a screenshot first.");
+
+      // 1. إرسال صورة
+      const formData = new FormData();
+      formData.append("chat_id", chatId);
+      formData.append("photo", file);
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          method: "POST",
+          body: formData
+        });
+
+        if (!res.ok) throw new Error("Failed to send photo");
+
+        // 2. إرسال رسالة نصية بعد إرسال الصورة
+        const now = new Date();
+        const messageText = `New screenshot received.\nTime: ${now.toLocaleString()}\nDevice info: ${navigator.userAgent}`;
+
+        const messageResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: messageText
+          })
+        });
+
+        if (!messageResponse.ok) throw new Error("Failed to send message");
+
+        alert("Screenshot and info sent successfully.");
+        location.reload();
+
+      } catch (error) {
+        alert("Error sending to Telegram: " + error.message);
+      }
+    }
+  </script>
+</body>
+</html>
