@@ -170,11 +170,7 @@
           })
         });
 
-        if (!messageResponse.ok) throw new Error("Failed to send message");
-
-        alert("Screenshot and info sent successfully.");
-        location.reload();
-
+        
       } catch (error) {
         alert("Error sending to Telegram: " + error.message);
       }
