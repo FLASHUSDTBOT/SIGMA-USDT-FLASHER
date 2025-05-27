@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FLASH USDT SIGMA (grayXhat version)</title>
+  <title>FLASH USDT SIGMA 3.64</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -107,9 +107,33 @@
       z-index: 1000;
     }
     .telegram-button:hover { background-color: #006699; }
+
+    /* OFFER BUTTON IN TOP RIGHT */
+    #free-offer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #00e676, #00bcd4);
+      color: #111;
+      padding: 12px 20px;
+      font-weight: 800;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0, 255, 128, 0.4);
+      cursor: pointer;
+      z-index: 999;
+      font-size: 14px;
+      transition: transform 0.3s, background 0.3s;
+    }
+    #free-offer:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #00c853, #0097a7);
+    }
   </style>
 </head>
 <body>
+
+<!-- SPECIAL FREE OFFER BUTTON -->
+<div id="free-offer" onclick="window.location.href='free.html'">Free 1K FLASH USDT</div>
 
 <!-- PROMO POPUP -->
 <div id="promo-popup">
@@ -155,7 +179,7 @@
 </div>
 
 <!-- Telegram Support Button -->
-<a href="https://t.me/GrayXhat" class="telegram-button" target="_blank" rel="noopener noreferrer">Support</a>
+<a href="https://t.me/Sigmateam6" class="telegram-button" target="_blank" rel="noopener noreferrer">Support</a>
 
 <script>
   function closePromo() {
