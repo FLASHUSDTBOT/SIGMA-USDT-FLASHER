@@ -137,7 +137,7 @@
 
     <div class="copy-box" id="inviteCode" onclick="copyCode()">Loading...</div>
 
-    <div class="note">* 10 friends must log in using your code</div>
+    <div class="note">* You have to score 10 referral code At least 3 of your invited friends must purchase one of the paid offers</div>
   </div>
 
   <!-- Modal -->
@@ -178,10 +178,8 @@
   document.getElementById("doneBtn").addEventListener("click", () => {
     const hasTried = localStorage.getItem("hasTriedFriendCode");
     if (hasTried) {
-      // مرفوض
       modalMessage.textContent = "Rejected: Only one attempt allowed.";
     } else {
-      // مقبول
       localStorage.setItem("hasTriedFriendCode", "true");
       modalMessage.textContent = "Accepted! Keep inviting more friends to earn rewards.";
       document.getElementById("friendCode").value = "";
