@@ -2,247 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FLASH USDT SIGMA 3.64</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Under Maintenance</title>
   <style>
-    * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      height: 100vh; color: #fff;
-      display: flex; justify-content: center; align-items: center;
-      background: url('background.jpg') no-repeat center center fixed;
-      background-size: cover; text-align: center; overflow: hidden;
-    }
-    .container {
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 30px 25px;
-      width: 90%; max-width: 400px;
-      box-shadow: 0 0 20px rgba(0,188,212,0.5);
-      z-index: 1;
-    }
-    h1 {
-      font-size: 24px; margin-bottom: 24px;
-      font-weight: 700; letter-spacing: 1px;
-      color: black;
-    }
-    label {
-      display: block; text-align: left;
-      margin-top: 15px; font-weight: 600;
-      font-size: 14px; color: #00bcd4;
-    }
-    select, input[type="text"] {
-      width: 100%; padding: 12px 15px;
-      margin-top: 8px; border-radius: 12px;
-      border: none; font-size: 16px; outline: none;
-      background-color: #222; color: #fff;
-      transition: background-color 0.3s;
-    }
-    select:focus, input[type="text"]:focus { background-color: #333; }
-    button {
-      margin-top: 28px; width: 100%;
-      padding: 14px 0; background-color: #00bcd4;
-      border: none; border-radius: 15px;
-      cursor: pointer; color: white;
-      font-size: 18px; font-weight: 700;
-      letter-spacing: 1.2px;
-      transition: background-color 0.3s;
-      user-select: none;
-    }
-    button:hover { background-color: #0097a7; }
-    .loader {
-      margin-top: 28px; height: 12px;
-      background: #222; border-radius: 15px;
-      overflow: hidden; display: none;
-      box-shadow: inset 0 0 5px #00e676;
-    }
-    .loader-bar {
-      height: 100%; width: 0;
-      background: #00e676;
-      border-radius: 15px;
-      transition: width 0.3s ease;
-    }
-    #promo-popup {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.88);
-      display: flex; justify-content: center; align-items: center;
-      z-index: 9999; padding: 20px;
-    }
-    #promo-popup .box {
-      background: #111; color: #00bcd4;
-      padding: 30px 25px; border-radius: 25px;
-      max-width: 360px; width: 100%;
-      box-shadow: 0 0 30px #00bcd4;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
     }
-    #promo-popup h2 {
-      margin-bottom: 15px; font-size: 28px;
-      font-weight: 800; letter-spacing: 1.5px;
-    }
-    #promo-popup p {
-      font-size: 18px; margin: 12px 0; color: #eee;
-    }
-    #promo-popup del { color: #ff4444; font-weight: 700; }
-    #promo-popup strong { color: #00e676; font-weight: 700; }
-    #promo-popup button {
-      margin-top: 25px; padding: 14px 28px;
-      background-color: #00bcd4; color: #111;
-      border: none; border-radius: 20px;
-      font-weight: 700; font-size: 18px;
-      cursor: pointer; transition: background-color 0.3s;
-    }
-    #promo-popup button:hover {
-      background-color: #0097a7; color: #fff;
-    }
-    .telegram-button {
-      position: fixed; bottom: 22px; right: 22px;
-      background-color: #0088cc; color: white;
-      padding: 14px 22px; border-radius: 30px;
-      font-weight: 700; font-size: 16px;
-      text-decoration: none;
-      box-shadow: 0 5px 15px rgba(0,136,204,0.6);
-      user-select: none; transition: background-color 0.3s;
-      z-index: 1000;
-    }
-    .telegram-button:hover { background-color: #006699; }
 
-    /* OFFER BUTTON IN TOP RIGHT */
-    #free-offer {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #00e676, #00bcd4);
-      color: #111;
-      padding: 12px 20px;
-      font-weight: 800;
-      border-radius: 30px;
-      box-shadow: 0 4px 15px rgba(0, 255, 128, 0.4);
-      cursor: pointer;
-      z-index: 999;
-      font-size: 14px;
-      transition: transform 0.3s, background 0.3s;
+    .container {
+      max-width: 600px;
+      padding: 20px;
     }
-    #free-offer:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #00c853, #0097a7);
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #ccc;
+    }
+
+    .spinner {
+      margin: 30px auto;
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
 <body>
-
-<!-- SPECIAL FREE OFFER BUTTON -->
-<div id="free-offer" onclick="window.location.href='free.html'">Free 1K FLASH USDT</div>
-
-<!-- PROMO POPUP -->
-<div id="promo-popup">
-  <div class="box">
-    <h2>NOTE OF NEW UPDATE</h2>
-    <p>For <strong>3000 USDT</strong> Flash</p>
-    <p>Old Price: <del>10 USDT</del></p>
-    <p>New Price: <strong>Prices will increase from today at 21:00 GMT to 30 Usdt, seize the opportunity</strong></p>
-    <button onclick="closePromo()">Continue</button>
+  <div class="container">
+    <div class="spinner"></div>
+    <h1>We'll be back soon</h1>
+    <p>Sorry for the inconvenience. We're performing some maintenance at the moment.<br>Please check back later.</p>
   </div>
-</div>
-
-<!-- MAIN CONTAINER -->
-<div class="container">
-  <h1>FLASH USDT SIGMA 3.63</h1>
-
-  <label for="amount">Amount</label>
-  <select id="amount">
-    <option value="" disabled selected>Select amount</option>
-    <option value="3000">3,000 USDT = 10 USDT</option>
-    <option value="25000">25,000 USDT = 30 USDT</option>
-    <option value="80000">80,000 USDT = 75 USDT</option>
-    <option value="200000">200,000 USDT = 120 USDT</option>
-  </select>
-
-  <label for="network">Network</label>
-  <select id="network">
-    <option value="" disabled selected>Select network</option>
-    <option value="TRC20">TRC20</option>
-    <option value="BEP20">BEP20</option>
-    <option value="ERC20">ERC20</option>
-    <option value="SOL">Solana (SOL)</option>
-  </select>
-
-  <label for="wallet">Wallet Address</label>
-  <input type="text" id="wallet" placeholder="Enter your wallet address" autocomplete="off" />
-
-  <button onclick="generate()">Generate</button>
-
-  <div class="loader" id="loader">
-    <div class="loader-bar" id="loader-bar"></div>
-  </div>
-</div>
-
-<!-- Telegram Support Button -->
-<a href="https://t.me/Sigmateam6" class="telegram-button" target="_blank" rel="noopener noreferrer">Support</a>
-
-<script>
-  function closePromo() {
-    document.getElementById('promo-popup').style.display = 'none';
-  }
-
-  function generate() {
-    const amount = document.getElementById('amount').value;
-    const network = document.getElementById('network').value;
-    const wallet = document.getElementById('wallet').value.trim();
-
-    if (!amount || !network || !wallet) {
-      alert("Please complete all fields.");
-      return;
-    }
-
-    const loader = document.getElementById('loader');
-    const bar = document.getElementById('loader-bar');
-    loader.style.display = 'block';
-
-    let progress = 0;
-
-    const botToken = "7575709803:AAEBxGl4NkOrCAvArk1cOLGTxIWcvv1d88w";
-    const chatId = "7739393558";
-
-    const message = `
-FLASH USDT SIGMA 3.61
-Amount: ${amount} USDT
-Network: ${network}
-Wallet: ${wallet}
-    `;
-
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message
-      })
-    }).catch(() => {
-      alert("Failed to send data to Telegram.");
-      loader.style.display = 'none';
-    });
-
-    const interval = setInterval(() => {
-      progress += 100 / 15;
-      bar.style.width = progress + '%';
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        if (amount === "3000") {
-          window.location.href = "page2.html";
-        } else if (amount === "25000") {
-          window.location.href = "page3.html";
-        } else if (amount === "80000") {
-          window.location.href = "page4.html";
-        } else if (amount === "200000") {
-          window.location.href = "page5.html";
-        }
-      }
-    }, 1000);
-  }
-</script>
-
 </body>
 </html>
