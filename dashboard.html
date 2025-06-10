@@ -128,6 +128,31 @@
     min-height: 20px;
     color: #ff4d4d;
   }
+
+  /* زر تلغرام عائم */
+  .floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #00ffc8;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .floating-btn img {
+    width: 30px;
+    height: 30px;
+  }
+  .floating-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 18px #00ffc8;
+  }
 </style>
 </head>
 <body>
@@ -135,8 +160,7 @@
 <div class="container" role="main" aria-label="Payment form">
   <div class="title-container">
     <img src="abstergo.png" alt="Logo" />
-    <h2>SIGMA PRO 3.72
-    </h2>
+    <h2>SIGMA PRO 3.72</h2>
   </div>
 
   <label for="amount">Amount</label>
@@ -175,6 +199,11 @@
 
   <div id="message" role="alert" aria-live="assertive"></div>
 </div>
+
+<!-- زر تلغرام عائم -->
+<a href="https://t.me/Sigmateam6" class="floating-btn" target="_blank" title="Telegram Support" aria-label="Open Telegram Chat">
+  <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
+</a>
 
 <script>
   function updatePrice() {
